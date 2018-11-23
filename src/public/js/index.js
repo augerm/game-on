@@ -1,4 +1,4 @@
-import MotionService from './modules/motion-service.js';
+import MotionService from './services/motion-service.js';
 
 
 let motionService = new MotionService();
