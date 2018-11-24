@@ -1,24 +1,44 @@
 import { EventEmitter } from 'events';
+let _ = require('lodash');
 
 export default class MotionService extends EventEmitter {
 	constructor() {
 		super();
+		this.lastAlpha = 0;
+		this.lastBeta = 0;
+		this.lastGamma = 0;
+		this.lastAbsolute = 0;
 		this.statusEl = document.getElementById('status');
 		this.statusEl.innerHTML = "Hello World";
-		this.initialized = false;
-		window.addEventListener('devicemotion', (event) => { this.onDeviceMotion(event) });
+		window.addEventListener('deviceorientation', _.throttle(this.onDeviceMotion.bind(this), 1000));
 	}
 
 	onDeviceMotion(event) {
-		if(event.accelerationIncludingGravity.y > 10) {
-			alert("Expelliarmus");
+		let alphaDelta = this.lastAlpha - event.alpha;
+		let betaDelta = this.lastBeta - event.beta;
+		let gammaDelta = this.lastGamma - event.gamma;
+		let absoluteDelta = this.lastAbsolute - event.absolute;
+
+		if(alphaDelta > 30) {
+			alert("Up");
+		} else if(alphaDelta < -30) {
+			alert("Down");
+		} else if(gammaDelta > 30) {
+			alert("Left");
+		} else if(gammaDelta < -30) {
+			alert("Right");
 		}
-		this.emit('left', event.accelerationIncludingGravity.x);
+
+		this.lastAlpha = event.alpha;
+		this.lastBeta = event.beta;
+		this.lastGamma = event.gamma;
+		this.lastAbsolute = event.absolute;
 
 		this.statusEl.innerHTML = ` <h1>
-			x: ${Math.round(event.accelerationIncludingGravity.x)}
-			y: ${Math.round(event.accelerationIncludingGravity.y)}
-			z: ${Math.round(event.accelerationIncludingGravity.z)}
+			alphaDelta: ${alphaDelta}
+			betaDelta: ${betaDelta}
+			gammaDelta: ${gammaDelta}
+			absoluteDelta: ${absoluteDelta}
 			</h1> 
 		`;
 	}
