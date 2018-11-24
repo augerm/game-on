@@ -3,6 +3,12 @@ import Motions from '../enums/Motions.js';
 export default class SpellService {
 	constructor(motionService) {
 		this.motionHistory = [];
+		this.spells = [
+			{
+				name: "Expelliarmus",
+				pattern: [Motions.Left]
+			}
+		];
 		motionService.on('left', (velocity) => { this.onMovement(Motions.Left, velocity) });
 		motionService.on('right', (velocity) => { this.onMovement(Motions.Right, velocity) });
 		motionService.on('up', (velocity) => { this.onMovement(Motions.Up, velocity) });
@@ -10,9 +16,6 @@ export default class SpellService {
 	}
 
 	onMovement(direction, velocity) {
-		if(velocity < 2) {
-			return;
-		}
 		switch(direction) {
 			case Motions.Left:
 				this.onLeft();
@@ -33,6 +36,7 @@ export default class SpellService {
 
 	onLeft(velocity) {
 		this.motionHistory.push(Motions.Left);
+		alert("Expelliarmus");
 	}
 
 	onRight(velocity) {
@@ -45,5 +49,10 @@ export default class SpellService {
 
 	onDown(velocity) {
 		this.motionHistory.push(Motions.Down);
+	}
+
+	getSpell() {
+
+		this.motionHistory.splice(0)
 	}
 }
