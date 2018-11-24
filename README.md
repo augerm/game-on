@@ -9,3 +9,11 @@ Development Setup
 Client Side
 1) `npm run build`
 2) Open index.html in root
+
+
+AWS Setup
+1) 
+
+Local Testing
+1) `npm install -g ngrok`
+2) `ngrok http 8080`
