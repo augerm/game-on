@@ -9,15 +9,15 @@ export default class Wizard {
   }
   makeElement(){
     let element = document.createElement("IMG");
-    element.src = "src/public/img/wizards/"+this.color+".png";
+    element.src = "./img/"+this.color+".png";
     document.body.appendChild(element);
     return element;
   }
   render(){
     if(this.isOpponent){
-
-    } else {
-
+      this.element.style.transform = "scale(-1,1)";
+    }
+    if(!this.isOpponent){
     }
   }
   delete(){
