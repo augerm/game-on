@@ -6,21 +6,34 @@ export default class Wizard {
     this.color = color || "blue";
     this.isOpponent = false;
     this.element = this.makeElement();
+    this.img = this.makeImage();
   }
   makeElement(){
-    let element = document.createElement("IMG");
-    element.src = "./img/"+this.color+".png";
-    document.body.appendChild(element);
-    return element;
+    let wizard = document.createElement("DIV");
+    document.body.appendChild(wizard);
+    return wizard;
+  }
+  makeImage(){
+    let image = document.createElement("IMG");
+    image.src = "./img/"+this.color+".png";
+    this.element.appendChild(image);
+    return image;
+  }
+  cast(spell){
+    let label = document.createElement("DIV");
+    label.innerHTML = spell;
+    label.style.color = this.color;
+    this.img.src = "./img/"+this.color+"_cast.gif";
+    this.element.appendChild(label);
   }
   render(){
     if(this.isOpponent){
-      this.element.style.transform = "scale(-1,1)";
+      this.img.style.transform = "scale(-1,1)";
     }
     if(!this.isOpponent){
     }
   }
   delete(){
-
+    this.element.parentNode.removeChild(this.element);
   }
 }
