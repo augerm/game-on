@@ -1,3 +1,5 @@
+import MotionService from './services/motion-service.js'
+import SpellService from './services/spell-service.js';
 import Spells from './enums/Spells.js';
 
 export default class Wizard {
@@ -8,9 +10,10 @@ export default class Wizard {
     this.isOpponent = false;
     this.element = this.makeElement();
     this.img = this.makeImage();
-    this.spellService = new SpellService();
-    this.spellService.on("spell", () => {
-      this.cast();
+    this.motionService = new MotionService();
+    this.spellService = new SpellService(this.motionService);
+    this.spellService.on("spell", (spell) => {
+      this.cast(spell);
     });
   }
   makeElement(){
@@ -26,7 +29,7 @@ export default class Wizard {
   }
   cast(spell){
     let label = document.createElement("DIV");
-    label.innerHTML = this.spellService.spells.name;
+    label.innerHTML = "spell";
     label.style.color = this.color;
     this.img.src = "./img/"+this.color+"_cast.gif";
     this.element.appendChild(label);
