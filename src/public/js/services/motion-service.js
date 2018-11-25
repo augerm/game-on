@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events';
 let _ = require('lodash');
 
+import Motions from '../enums/Motions.js';
+
 export default class MotionService extends EventEmitter {
 	constructor() {
 		super();
@@ -20,14 +22,17 @@ export default class MotionService extends EventEmitter {
 		let absoluteDelta = this.lastAbsolute - event.absolute;
 
 		if(alphaDelta > 30) {
-			alert("Up");
-		} else if(alphaDelta < -30) {
-			alert("Down");
-		} else if(gammaDelta > 30) {
-			alert("Left");
-		} else if(gammaDelta < -30) {
-			alert("Right");
+			this.emit("motion", Motions.Left)
+		} 
+		if(alphaDelta < -30) {
+			this.emit("motion", Motions.Right);
 		}
+		// if(alphaDelta > 30) {
+		// 	alert("Up");
+		// } 
+		// if(alphaDelta < -30) {
+		// 	alert("Down");
+		// } 
 
 		this.lastAlpha = event.alpha;
 		this.lastBeta = event.beta;

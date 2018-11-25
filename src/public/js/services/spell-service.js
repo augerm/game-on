@@ -1,6 +1,7 @@
+import { EventEmitter } from 'events';
 import Motions from '../enums/Motions.js';
 
-export default class SpellService {
+export default class SpellService extends EventEmitter {
 	constructor(motionService) {
 		this.motionHistory = [];
 		this.spells = [
@@ -9,13 +10,12 @@ export default class SpellService {
 				pattern: [Motions.Left]
 			}
 		];
-		motionService.on('left', (velocity) => { this.onMovement(Motions.Left, velocity) });
-		motionService.on('right', (velocity) => { this.onMovement(Motions.Right, velocity) });
-		motionService.on('up', (velocity) => { this.onMovement(Motions.Up, velocity) });
-		motionService.on('down', (velocity) => { this.onMovement(Motions.Down, velocity) });
+		motionService.on("motion", (direction) => {
+			this.onMovement(direction) 
+		});
 	}
 
-	onMovement(direction, velocity) {
+	onMovement(direction) {
 		switch(direction) {
 			case Motions.Left:
 				this.onLeft();
@@ -36,7 +36,6 @@ export default class SpellService {
 
 	onLeft(velocity) {
 		this.motionHistory.push(Motions.Left);
-		alert("Expelliarmus");
 	}
 
 	onRight(velocity) {
